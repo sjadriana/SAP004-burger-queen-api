@@ -1,10 +1,10 @@
-version: '3.4'
+version: '3.4'   
 
 services:
   dev:
     image: node:12-alpine
     container_name: bq-api-node
-    command:  npm run dev
+    command: sh -c "npm run migrate && npm run dev"
     working_dir: /app
     ports:
       - "3000:3000"
@@ -13,7 +13,7 @@ services:
     networks:
       - bq-network
     depends_on:
-      - db
+      - db  
 
   db:
     image: postgres
@@ -34,3 +34,18 @@ volumes:
 networks:
   bq-network:
     driver: bridge
+
+
+    # test:
+    #   image: node:12-alpine
+    #   container_name:  bq-api-node_test
+    #   command:  sh -c "npm run migrate && npm run test"
+    #   working_dir: /app
+    #   ports:
+    #     - "3001:3000"
+    #   volumes:
+    #     - ./:/app:cached
+    #   networks:
+    #     - bq-network
+    #   depends_on:
+    #     - db  
