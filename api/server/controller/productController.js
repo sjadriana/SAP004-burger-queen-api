@@ -20,15 +20,15 @@ class ProductController {
   }
 
   static async addProduct(req, res) {
-    console.log(req.body.name, req.body.is_alive)
-    if (!req.body.name || !req.body.is_alive ) {
+    console.log(req.body.name, req.body.price)
+    if (!req.body.name || !req.body.price || (typeof req.body.has_burger !== 'boolean') ) {
       util.setError(400, 'Please provide complete details')
       return util.send(res)
     }
     const newProduct = req.body
     try {
-      const createProduct = await ProductService.addProduct(newProduct)
-      util.setSuccess(201, 'Product Added!', createProduct)
+      const createdProduct = await ProductService.addProduct(newProduct)
+      util.setSuccess(201, 'Product Added!', createdProduct)
       return util.send(res)
     } catch (error) {
       util.setError(400, error.message)

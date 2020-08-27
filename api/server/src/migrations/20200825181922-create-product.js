@@ -14,6 +14,12 @@ module.exports = {
       price: {
         type: Sequelize.DECIMAL(10,2)
       },
+      has_extras:{
+        type: Sequelize.BOOLEAN
+      },
+      has_burger:{
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

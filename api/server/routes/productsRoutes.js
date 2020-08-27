@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import ProductController from '../productController/productController'
+import ProductController from '../controller/productController'
 
 const router = Router()
 router.get('/', ProductController.getAllProducts )
