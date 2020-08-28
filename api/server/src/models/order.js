@@ -4,10 +4,14 @@ module.exports = (sequelize, DataTypes) => {
     active: DataTypes.BOOLEAN,
     table: DataTypes.INTEGER(),
     client: DataTypes.STRING,
-    waiter: DataTypes.STRING
+    waiter: DataTypes.STRING,
+    items: DataTypes.VIRTUAL
   }, {});
   Order.associate = function(models) {
-   Order.hasMany(models.ProductsOrder)
+   Order.hasMany(models.ProductsOrder,{
+    foreignKey: 'orderId'
+  })
+   
   };
   return Order;
 };

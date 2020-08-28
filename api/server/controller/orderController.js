@@ -4,36 +4,53 @@ import Util from '../utils/Utils'
 const util = new Util()
 
 class OrderController {
-  static async getAllOrders(req, res) {
-    try {
-      const allOrders = await OrderService.getAllOrders()
-      if (allOrders.length > 0) {
-        util.setSuccess(200, 'Order retrieved', allOrders)
-      } else {
-        util.setSuccess(200, 'No Order found')
-      }
-      return util.send(res)
-    } catch (error) {
-      util.setError(400, error)
+  static async all(req, res) {
+    const products = await OrderService.all()
+    if (products.length > 0) {
+      util.setSuccess(200, 'Orders retrieved', products)
+    }else {
+      util.setSuccess(200, 'No Order found')
+    }
+    return util.send(res)
+  }
+  static async getById(req, res) {
+    const { id } = req.params
+    const order = await OrderService.getById(id)
+    util.setSuccess(200, 'Order retrieved', order)
+    return util.send(res)
+  }
+    static async getItemsById(req, res) {
+      const { id } = req.params
+      const items = await ProductsOrderService.findByOrderId(id, req.body)
+      util.setSuccess(200, 'Order retrieved', items)
       return util.send(res)
     }
-  }
+  
+    static async createItem(req,res){
+      const { id } = req.params
+      const item = await ProductsOrderService.add(id, req.body)
+      util.setSuccess(200, 'Order retrieved', item)
+      return util.send(res)
+    }
 
-  static async addOrder(req, res) {
-    console.log(req.body.name, req.body.price)
-    if (!req.body.client || !req.body.table || (typeof req.body.active !== 'boolean') ) {
-      util.setError(400, 'Please provide complete details')
+
+  static async add(req, res) {
+    if (!req.body.client || !req.body.table) {
+      util.setError(400, 'Please complete details')
       return util.send(res)
     }
     const newOrder = req.body
     try {
-      const createdOrder = await OrderService.addOrder(newOrder)
+      const createdOrder = await OrderService.add(newOrder)
       util.setSuccess(201, 'Order Added!', createdOrder)
       return util.send(res)
     } catch (error) {
       util.setError(400, error.message)
       return util.send(res)
     }
+  }
+  static async allItems(req, res) {
+    return []
   }
 
   static async updatedOrder(req, res) {

@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {});
   Product.associate = function(models) {
-    Product.hasMany(models.ProductsOrder)
+    Product.hasMany(models.ProductsOrder,{
+      foreignKey: 'productId'
+    })
   };
   return Product;
 };

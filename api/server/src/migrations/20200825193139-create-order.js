@@ -8,18 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
         references: {model:'Orders', key:'id'}
-      },
-      orderId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {model:'Orders', key:'id'}
-      },
-      
-      productId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {model:'Products', key:'id'}
-      },
+      },     
       active: {
         type: Sequelize.BOOLEAN
       },

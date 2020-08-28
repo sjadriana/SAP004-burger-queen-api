@@ -1,23 +1,39 @@
 import database from '../src/models'
+import ProductsOrderService from './productsorderService'
+
 
 class OrderService {
-  static async getAllOrders() {
+  static async all() {
     try {
-      return await database.Order.findAll()
+      const orders = await database.Order.findAll()
+      const newOrders = await Promise.all( orders.map( async order => {
+        order.items = await ProductsOrderService.findByOrderId(order.id)
+        return order
+      }))
+      return newOrders
+    } catch (error) {
+      throw error
+    }
+  }
+  static async getById(id) {
+    try {
+      return await database.Order.findOne({
+        where: { id: Number(id)}
+      })
     } catch (error) {
       throw error
     }
   }
 
-  static async addOrder(newOrder) {
+  static async add(newOrder) {
     try {
-      return await database.Product.create(newOrder)
+      return await database.Order.create(newOrder)
     } catch (error) {
       throw error
     }
   }
 
-  static async updateOrder(id, updateOorder) {
+  static async updateOrder(id, updateOrder) {
     try {
       const orderToUpdate = await database.Order.findOne({
         where: { id: Number(id) }
